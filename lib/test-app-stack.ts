@@ -7,12 +7,6 @@ export class TestAppStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const queue = new sqs.Queue(this, 'TestAppQueue', {
-      visibilityTimeout: Duration.seconds(300)
-    });
-
-    new SnsToSqs(this, 'NewConstruct', {
-      existingQueueObj: queue,
-    });
+    new SnsToSqs(this, 'NewConstruct', {});
   }
 }

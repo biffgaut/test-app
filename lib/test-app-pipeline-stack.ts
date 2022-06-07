@@ -1,7 +1,7 @@
 import { SecretValue, Stack, StackProps, Duration } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { TestAppStage } from './test-app-stage';
-import { CodePipeline, CodePipelineSource, ShellStep } from "aws-cdk-lib/pipelines";
+import { CodePipeline, CodePipelineSource, ShellStep, ManualApprovalStep } from "aws-cdk-lib/pipelines";
 
 /**
  * The stack that defines the application pipeline
@@ -32,13 +32,19 @@ export class TestAppPipelineStack extends Stack {
        }),
     });
 
-    // This is where we add the application stages
-    pipeline.addStage(new TestAppStage(this, 'preprod',{
+    const preProdStage = new TestAppStage(this, 'preprod',{
       env: { account: '515290864834', region: 'us-east-1' }
-    }));
+    });
 
-    pipeline.addStage(new TestAppStage(this, 'prahd',{
+    const prodStage = new TestAppStage(this, 'prahd',{
       env: { account: '491121372873', region: 'us-east-1' }
-    }));
+    });
+
+    // This is where we add the application stages
+    pipeline.addStage(preProdStage, {
+      pre: [
+        new ManualApprovalStep('PromoteToProd'),
+      ],
+    });
   }
 }
