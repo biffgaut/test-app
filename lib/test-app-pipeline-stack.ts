@@ -40,8 +40,9 @@ export class TestAppPipelineStack extends Stack {
       env: { account: '491121372873', region: 'us-east-1' }
     });
 
-    // This is where we add the application stages
-    pipeline.addStage(preProdStage, {
+    pipeline.addStage(preProdStage);
+
+    pipeline.addStage(prodStage, {
       pre: [
         new ManualApprovalStep('PromoteToProd'),
       ],
