@@ -1,6 +1,6 @@
 import { SecretValue, Stack, StackProps, Duration } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-
+import { TestAppStage } from './test-app-stage';
 import { CodePipeline, CodePipelineSource, ShellStep } from "aws-cdk-lib/pipelines";
 
 /**
@@ -32,6 +32,8 @@ export class TestAppPipelineStack extends Stack {
     });
 
     // This is where we add the application stages
-    // ...
+    pipeline.addStage(new TestAppStage(this, 'preprod',{
+      env: { account: '515290864834', region: 'us-east-1' }
+    }));
   }
 }
