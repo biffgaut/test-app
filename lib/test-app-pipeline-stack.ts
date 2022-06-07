@@ -13,6 +13,7 @@ export class TestAppPipelineStack extends Stack {
     const pipeline = new CodePipeline(this, 'Pipeline', {
       // The pipeline name
       pipelineName: 'TestAppPipeline',
+      crossAccountKeys: true,
 
        // How it will be built and synthesized
        synth: new ShellStep('Synth', {
@@ -34,6 +35,10 @@ export class TestAppPipelineStack extends Stack {
     // This is where we add the application stages
     pipeline.addStage(new TestAppStage(this, 'preprod',{
       env: { account: '515290864834', region: 'us-east-1' }
+    }));
+
+    pipeline.addStage(new TestAppStage(this, 'prahd',{
+      env: { account: '491121372873', region: 'us-east-1' }
     }));
   }
 }
