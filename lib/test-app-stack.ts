@@ -7,6 +7,9 @@ export class TestAppStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    new SnsToSqs(this, 'NewConstruct', {});
+    const myQueue = new sqs.Queue(this, "existingQueue");
+    new SnsToSqs(this, 'NewConstruct', {
+      existingQueueObj: myQueue
+    });
   }
 }

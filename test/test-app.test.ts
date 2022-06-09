@@ -14,4 +14,5 @@ test('SQS Queue Created', () => {
 //   template.hasResourceProperties('AWS::SQS::Queue', {
 //     VisibilityTimeout: 300
 //   });
+  expect(true).toBe(true);
 });
